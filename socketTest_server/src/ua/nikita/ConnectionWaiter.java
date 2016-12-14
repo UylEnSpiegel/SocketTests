@@ -10,16 +10,23 @@ import java.util.List;
  */
 public class ConnectionWaiter extends Thread {
 
+    private static volatile ConnectionWaiter instance;
+    private int port =6666;
+
+
     private List<Transmitter> Connections = new ArrayList<>();
 
-    private ServerSocket ss;
-
-    public ConnectionWaiter(ServerSocket ss) {
-        this.ss = ss;
-
-    }
+//    private ServerSocket ss;
+//
+//    public ConnectionWaiter(ServerSocket ss) {
+//        this.ss = ss;
+//
+//    }
 
     public void run() {
+       try {
+           ServerSocket ss = new ServerSocket(port);
+
 
         while (true) {
             try {
@@ -33,6 +40,7 @@ public class ConnectionWaiter extends Thread {
                 e.printStackTrace();
             }
         }
+       }catch (java.io.IOException e){e.printStackTrace();}
 
 
     }
@@ -40,7 +48,22 @@ public class ConnectionWaiter extends Thread {
     public void MassEffect(String s) {
         for (Transmitter client : Connections) {
             client.sendToClient(s);
+            System.out.println("Sent everything4sure");
         }
+    }
+
+
+    public static ConnectionWaiter getInstance() {
+        ConnectionWaiter localInstance = instance;
+        if (localInstance == null) {
+            synchronized (ConnectionWaiter.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new ConnectionWaiter();
+                }
+            }
+        }
+        return localInstance;
     }
 
 

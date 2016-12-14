@@ -38,12 +38,12 @@ public class Main {
                 Random rng = new Random();
 
                 line  = generateString(rng, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" , 8);
-                System.out.println("Sending...");
 
-                // задержка в 2 сек меж отправками
+                System.out.println("Sending...  " + line);
+
                 try {
-//                    Thread.sleep(2000);
-                    Thread.sleep(1);
+                    Thread.sleep(2000);
+//                    Thread.sleep(1);
                     out.writeUTF(line);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

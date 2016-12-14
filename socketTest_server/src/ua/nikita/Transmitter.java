@@ -40,7 +40,9 @@ public class Transmitter extends Thread {
                 System.out.println("Returning this crap");
 
                 line1="Everyone should got this: " + line;
-                Main.waiter.MassEffect(line1);
+//                Main.waiter.MassEffect(line1);
+                ConnectionWaiter waiter = ConnectionWaiter.getInstance();
+                waiter.MassEffect(line1);
 
 //                out.writeUTF("NO you are " + line);
 //                out.flush();
@@ -63,6 +65,7 @@ public class Transmitter extends Thread {
         try {
             out.writeUTF(s);
             out.flush();
+            System.out.println("4sure4sure " + s);
         }catch (java.io.IOException e){e.printStackTrace();}
     }
 
