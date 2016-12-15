@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import ua.nikita.Main.*;
 
 /**
  * Created by Nikita.Hatnyuk on 10.12.2016.
@@ -24,52 +23,40 @@ public class Transmitter extends Thread {
 
             in = new DataInputStream(sin);
             out = new DataOutputStream(sout);
-        }catch (java.io.IOException e){
+        } catch (java.io.IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void run () {
+    public void run() {
         String line = null;
-        String line1 = null;
-        while(true){
+
+        while (true) {
             try {
                 line = in.readUTF();
                 System.out.println("Message is :" + line);
                 System.out.println("Returning this crap");
 
-                line1="Everyone should got this: " + line;
-//                Main.waiter.MassEffect(line1);
-                ConnectionWaiter waiter = ConnectionWaiter.getInstance();
-                waiter.MassEffect(line1);
+                ConnectionWaiter.getInstance().massEffect("Everyone should got this: " + line);
 
-//                out.writeUTF("NO you are " + line);
-//                out.flush();
-//                System.out.println("Waiting huenting");
-//                System.out.println();
-            }catch (java.io.IOException e){
+            } catch (java.io.IOException e) {
                 e.printStackTrace();
                 break;
             }
-
-
-
-
+            line = null;
         }
-
-
     }
 
-    public void sendToClient (String s){
+    public void sendToClient(String s) {
         try {
             out.writeUTF(s);
             out.flush();
             System.out.println("4sure4sure " + s);
-        }catch (java.io.IOException e){e.printStackTrace();}
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
     }
-
-
 
 
 }

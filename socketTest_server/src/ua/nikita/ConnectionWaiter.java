@@ -1,7 +1,7 @@
 package ua.nikita;
 
+import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,60 +10,43 @@ import java.util.List;
  */
 public class ConnectionWaiter extends Thread {
 
-    private static volatile ConnectionWaiter instance;
-    private int port =6666;
+    private final int port = 6666;
+
+    private static ConnectionWaiter instance;
+
+    private ServerSocket serverSocket;
+    private List<Transmitter> clientList = new ArrayList<>();
 
 
-    private List<Transmitter> Connections = new ArrayList<>();
-
-//    private ServerSocket ss;
-//
-//    public ConnectionWaiter(ServerSocket ss) {
-//        this.ss = ss;
-//
-//    }
+    private ConnectionWaiter() throws IOException {
+        this.serverSocket = new ServerSocket(port);
+    }
 
     public void run() {
-       try {
-           ServerSocket ss = new ServerSocket(port);
-
 
         while (true) {
             try {
-                Socket socket = ss.accept();
-
-                Transmitter client = new Transmitter(socket);
-                Connections.add(client);
+                Transmitter client = new Transmitter(serverSocket.accept());
+                clientList.add(client);
                 client.start();
-//               Connections.get(Connections.indexOf(client)).start();
+//               clientList.get(clientList.indexOf(client)).start();
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
         }
-       }catch (java.io.IOException e){e.printStackTrace();}
-
-
     }
 
-    public void MassEffect(String s) {
-        for (Transmitter client : Connections) {
+    public void massEffect(String s) {
+        for (Transmitter client : clientList) {
             client.sendToClient(s);
             System.out.println("Sent everything4sure");
         }
     }
 
 
-    public static ConnectionWaiter getInstance() {
-        ConnectionWaiter localInstance = instance;
-        if (localInstance == null) {
-            synchronized (ConnectionWaiter.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new ConnectionWaiter();
-                }
-            }
-        }
-        return localInstance;
+    public static ConnectionWaiter getInstance() throws IOException {
+        if (instance == null) instance = new ConnectionWaiter();
+        return instance;
     }
 
 

@@ -1,9 +1,12 @@
 package ua.nikita;
+
 import java.net.*;
 import java.io.*;
 import java.util.Random;
 
 public class Main {
+
+    private static Random rng = new Random();
 
     public static void main(String[] args) {
 
@@ -13,7 +16,7 @@ public class Main {
         try {
             InetAddress ipAddress = InetAddress.getByName(address);
             System.out.println("is server = " + address + "and socket =" + serverPort + "?");
-            Socket socket = new Socket(ipAddress,serverPort);
+            Socket socket = new Socket(ipAddress, serverPort);
             System.out.println("I guess so");
 
 //            InputStream sin = socket.getInputStream();
@@ -28,48 +31,34 @@ public class Main {
             System.out.println("Type something to send");
             System.out.println();
 
-            GettingSomeShit in = new GettingSomeShit();
-            in.params(socket);
+            GettingSomeShit in = new GettingSomeShit(socket);
             in.start();
 
-            while(true){
+            while (true) {
+                Thread.sleep(rng.nextInt(5) * 1000);
+
 //                line = keyboard.readLine();
 
-                Random rng = new Random();
-
-                line  = generateString(rng, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" , 8);
+                line = generateString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
 
                 System.out.println("Sending...  " + line);
 
-                try {
-                    Thread.sleep(2000);
-//                    Thread.sleep(1);
-                    out.writeUTF(line);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                out.writeUTF(line);
 
                 out.flush();
-//                line = in.readUTF();
-//                System.out.println("Server sent :" + line);
                 System.out.println("Try again");
                 System.out.println();
-
             }
 
-
-        } catch (Exception x){
+        } catch (Exception x) {
             x.printStackTrace();
         }
 
     }
 
-    public static String generateString(Random rng, String characters, int length)
-    {
+    public static String generateString(String characters, int length) {
         char[] text = new char[length];
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             text[i] = characters.charAt(rng.nextInt(characters.length()));
         }
         return new String(text);
