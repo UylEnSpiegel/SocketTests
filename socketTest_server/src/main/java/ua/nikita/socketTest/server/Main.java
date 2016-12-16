@@ -1,4 +1,4 @@
-package ua.nikita;
+package ua.nikita.socketTest.server;
 
 
 public class Main {
