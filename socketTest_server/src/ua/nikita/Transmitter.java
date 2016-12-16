@@ -1,4 +1,4 @@
-package ua.nikita.socketTest.server;
+package ua.nikita;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
