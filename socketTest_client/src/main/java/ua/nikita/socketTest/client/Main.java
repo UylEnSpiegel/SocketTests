@@ -1,4 +1,4 @@
-package ua.nikita;
+package ua.nikita.socketTest.client;
 
 import java.net.*;
 import java.io.*;
