@@ -10,6 +10,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        String username;
+
         int serverPort = 6666;
         String address = "127.0.0.1";
 
@@ -34,6 +36,11 @@ public class Main {
             GettingSomeShit in = new GettingSomeShit(socket);
             in.start();
 
+            username = generateString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
+            out.writeUTF(username);
+            out.flush();
+            System.out.println("Username sent: "+username);
+
             while (true) {
                 Thread.sleep(rng.nextInt(5) * 1000);
 
@@ -41,7 +48,7 @@ public class Main {
 
                 line = generateString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
 
-                System.out.println("Sending...  " + line);
+                System.out.println("Sending...  : " + username + " " + line);
 
                 out.writeUTF(line);
 

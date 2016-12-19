@@ -16,6 +16,7 @@ public class ConnectionWaiter extends Thread {
 
     private ServerSocket serverSocket;
     private List<Transmitter> clientList = new ArrayList<>();
+    private List<String> clientUsernames = new ArrayList<>();
 
 
     private ConnectionWaiter() throws IOException {
@@ -47,6 +48,13 @@ public class ConnectionWaiter extends Thread {
     public static ConnectionWaiter getInstance() throws IOException {
         if (instance == null) instance = new ConnectionWaiter();
         return instance;
+    }
+
+    public void addUsername (String name, Transmitter transmitter){
+        int index;
+        index =  clientList.indexOf(transmitter);
+        clientUsernames.add(index,name);
+
     }
 
 

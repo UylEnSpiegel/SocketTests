@@ -14,6 +14,7 @@ public class Transmitter extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
     private Socket socket;
+    private String userName;
 
     public Transmitter(Socket socket) {
         this.socket = socket;
@@ -31,6 +32,11 @@ public class Transmitter extends Thread {
 
     public void run() {
         String line = null;
+        try {
+            line = in.readUTF();
+            userName = line;
+            ConnectionWaiter.getInstance().addUsername(userName,this);
+        }catch (java.io.IOException e){e.printStackTrace();}
 
         while (true) {
             try {
@@ -38,7 +44,7 @@ public class Transmitter extends Thread {
                 System.out.println("Message is :" + line);
                 System.out.println("Returning this crap");
 
-                ConnectionWaiter.getInstance().massEffect("Everyone should got this: " + line);
+                ConnectionWaiter.getInstance().massEffect(userName + " said to everyone: " + line);
 
             } catch (java.io.IOException e) {
                 e.printStackTrace();
