@@ -48,6 +48,11 @@ public class Transmitter extends Thread {
 
             } catch (java.io.IOException e) {
                 e.printStackTrace();
+                try {
+                    ConnectionWaiter.getInstance().RemoveBitch(this);
+                } catch (java.io.IOException u){
+                    u.printStackTrace();
+                }
                 break;
             }
             line = null;

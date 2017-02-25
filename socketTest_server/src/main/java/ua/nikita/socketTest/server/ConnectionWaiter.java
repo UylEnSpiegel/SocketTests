@@ -57,5 +57,12 @@ public class ConnectionWaiter extends Thread {
 
     }
 
+    public void RemoveBitch (Transmitter transmitter ){
+        int index;
+        index = clientList.indexOf(transmitter);
+        clientList.remove(index);
+        clientUsernames.remove(index);
+    }
+
 
 }
