@@ -1,5 +1,7 @@
 package ua.nikita.socketTest.server;
 
+import ua.nikita.socketTest.server.FIlesBitch.StaticHistoryTest;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -37,6 +39,10 @@ public class Transmitter extends Thread {
             userName = line;
             ConnectionWaiter.getInstance().addUsername(userName,this);
         }catch (java.io.IOException e){e.printStackTrace();}
+
+        for (int i = 1; i < StaticHistoryTest.historyLinesList.size();i++){
+            sendToClient(StaticHistoryTest.historyLinesList.get(i));
+        }
 
         while (true) {
             try {

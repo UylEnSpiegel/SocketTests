@@ -1,0 +1,8 @@
+vooot...
+znachit pishu ya translitom
+or not
+so
+i tried to say that every freaking word in this god damned file
+should be displayed and displayed correctly in every clients
+console hopefully without critical errors
+#bugsfree #QAcode
