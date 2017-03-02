@@ -23,7 +23,7 @@ public class GettingSomeShit extends Thread {
         while (true) {
             try {
                 line = in.readUTF();
-                System.out.println("Server sent :" + line);
+                System.out.println(line);
             } catch (java.io.IOException e) {
                 e.printStackTrace();
                 break;
