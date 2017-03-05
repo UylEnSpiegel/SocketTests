@@ -1,7 +1,5 @@
 package ua.nikita.socketTest.server;
 
-import ua.nikita.socketTest.server.FIlesBitch.StaticHistoryTest;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -40,17 +38,19 @@ public class Transmitter extends Thread {
             ConnectionWaiter.getInstance().addUsername(userName,this);
         }catch (java.io.IOException e){e.printStackTrace();}
 
-        for (int i = 1; i < StaticHistoryTest.historyLinesList.size();i++){
-            sendToClient(StaticHistoryTest.historyLinesList.get(i));
+        for (int i = 1; i < History.historyLinesList.size();i++){
+            sendToClient(History.historyLinesList.get(i));
         }
 
         while (true) {
             try {
                 line = in.readUTF();
                 System.out.println("Message is :" + line);
-                System.out.println("Returning this crap");
+              //  System.out.println("Returning this crap");
+                String lastmessage = new String(userName + " said: " + line);
+                ConnectionWaiter.getInstance().massEffect(lastmessage);
+                History.getInstance().UpdateList(lastmessage);
 
-                ConnectionWaiter.getInstance().massEffect(userName + " said to everyone: " + line);
 
             } catch (java.io.IOException e) {
                 e.printStackTrace();
@@ -69,7 +69,7 @@ public class Transmitter extends Thread {
         try {
             out.writeUTF(s);
             out.flush();
-            System.out.println("4sure4sure " + s);
+            System.out.println(s);
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }

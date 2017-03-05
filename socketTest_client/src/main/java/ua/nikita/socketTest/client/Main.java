@@ -46,7 +46,7 @@ public class Main {
 
 //                line = keyboard.readLine();
 
-                line = generateString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
+                line = generateString("abcdefghijklmnopqrstuvwxyz", 8);
 
                 System.out.println("Sending...  : " + username + " " + line);
 
