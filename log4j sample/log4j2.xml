@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <!--<Property name="fileName">${env:Log4jFileName}</Property>-->
+        <Property name="fileName">./log/auto-tests.log</Property>
+        <Property name="resultTestFileName">${fileName}/testResults/testResult</Property>
+        <Property name="datePattern">yyyy-MM-dd--HH-mm</Property>
+        <Property name="logPattern">%d{yyyy/MM/dd HH:mm:ss:SSS}|%p||autotests||%tn|%C{1}.%M(%L)|%m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="consoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${logPattern}"/>
+        </Console>
+
+        <RollingFile name="fileAppender" append="true" fileName="${fileName}"
+                     filePattern="${fileName}_%d{${datePattern}}">
+            <PatternLayout pattern="${logPattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1440"/>
+                <!--<SizeBasedTriggeringPolicy size="104857600" />-->
+            </Policies>
+        </RollingFile>
+
+        <!--<RollingFile name="resultTestAppender" append="true" fileName="${resultTestFileName}"-->
+                     <!--filePattern="${resultTestFileName}_%d{${datePattern}}">-->
+            <!--<PatternLayout pattern="${logPattern}"/>-->
+            <!--<Policies>-->
+                <!--<OnStartupTriggeringPolicy/>-->
+            <!--</Policies>-->
+        <!--</RollingFile>-->
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.http" level="ERROR"/>
+        <Logger name="com.pragmaticplay.aqa.common.servicesApiImplementation.jenkins" level="WARN"/>
+        <!--<Logger name="com.pragmaticplay.aqa.common.testResult.ResultTestManager" level="INFO" additivity="false">-->
+            <!--<AppenderRef ref="resultTestAppender"/>-->
+        <!--</Logger>-->
+        <Logger name="com.testCase" level="DEBUG"/>
+        <Logger name="com.pragmaticplay.aqa.gameTests.videoSlot.core" level="DEBUG"/>
+
+        <Root level="INFO">
+            <AppenderRef ref="fileAppender"/>
+            <AppenderRef ref="consoleAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
